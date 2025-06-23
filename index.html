@@ -8,51 +8,241 @@
 
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <!-- Bootstrap Icons -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.10.0/font/bootstrap-icons.min.css" rel="stylesheet">
 
     <!-- FullCalendar CSS -->
     <link href='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.7/index.global.min.css' rel='stylesheet' />
 
+    <!-- Animate.css para animaciones -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" rel="stylesheet">
+
     <!-- Custom Styles -->
     <style>
+        :root {
+            --color-trabajo: #e74c3c;
+            --color-descanso: #27ae60;
+            --color-trabajo-light: rgba(231, 76, 60, 0.1);
+            --color-descanso-light: rgba(39, 174, 96, 0.1);
+            --shadow-main: 0 10px 30px rgba(0, 0, 0, 0.15);
+            --border-radius: 15px;
+        }
+
+        body {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        .main-container {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow-main);
+            margin-top: 20px;
+            margin-bottom: 20px;
+            padding: 30px;
+        }
+
         .trabajo {
-            background-color: red !important;
+            background: linear-gradient(135deg, var(--color-trabajo), #c0392b) !important;
             color: white !important;
+            border: none !important;
+            box-shadow: 0 2px 10px rgba(231, 76, 60, 0.3);
         }
 
         .descanso {
-            background-color: green !important;
+            background: linear-gradient(135deg, var(--color-descanso), #229954) !important;
             color: white !important;
+            border: none !important;
+            box-shadow: 0 2px 10px rgba(39, 174, 96, 0.3);
         }
 
-        /* Colores más pálidos para días de otros meses */
         .fc-day-other .trabajo {
-            background-color: rgba(255, 0, 0, 0.4) !important;
+            background: rgba(231, 76, 60, 0.3) !important;
         }
 
         .fc-day-other .descanso {
-            background-color: rgba(0, 128, 0, 0.4) !important;
+            background: rgba(39, 174, 96, 0.3) !important;
         }
 
         #calendario {
-            max-width: 900px;
+            max-width: 100%;
             margin: 0 auto;
-            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
             padding: 20px;
             background: white;
-            border-radius: 10px;
-        }
-
-        .container {
-            margin-top: 40px;
+            border-radius: var(--border-radius);
+            border: 1px solid rgba(0, 0, 0, 0.05);
         }
 
         .btn-custom {
-            border-radius: 20px;
+            border-radius: 25px;
+            padding: 12px 25px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .btn-custom:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            border: none;
+        }
+
+        .btn-danger {
+            background: linear-gradient(135deg, #ff7b7b, #ff416c);
+            border: none;
+        }
+
+        .btn-success {
+            background: linear-gradient(135deg, #11998e, #38ef7d);
+            border: none;
+        }
+
+        .btn-info {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            border: none;
+        }
+
+        .form-control {
+            border-radius: 10px;
+            border: 2px solid #e9ecef;
+            padding: 12px 15px;
+            transition: all 0.3s ease;
+        }
+
+        .form-control:focus {
+            border-color: #667eea;
+            box-shadow: 0 0 0 0.2rem rgba(102, 126, 234, 0.25);
+        }
+
+        .form-select {
+            border-radius: 10px;
+            border: 2px solid #e9ecef;
+            padding: 12px 15px;
+        }
+
+        .card {
+            border: none;
+            border-radius: var(--border-radius);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+            transition: all 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+        }
+
+        .legend {
+            background: white;
+            border-radius: 10px;
+            padding: 15px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 8px;
+        }
+
+        .legend-color {
+            width: 20px;
+            height: 20px;
+            border-radius: 5px;
+            margin-right: 10px;
+        }
+
+        .stats-card {
+            text-align: center;
+            padding: 20px;
+            border-radius: var(--border-radius);
+            margin-bottom: 15px;
+        }
+
+        .stats-number {
+            font-size: 2rem;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .trabajo-stats {
+            background: var(--color-trabajo-light);
+            color: var(--color-trabajo);
+            border-left: 4px solid var(--color-trabajo);
+        }
+
+        .descanso-stats {
+            background: var(--color-descanso-light);
+            color: var(--color-descanso);
+            border-left: 4px solid var(--color-descanso);
+        }
+
+        .progress {
+            height: 10px;
+            border-radius: 10px;
+            background-color: #e9ecef;
+            overflow: hidden;
+        }
+
+        .progress-bar {
+            border-radius: 10px;
+            transition: width 0.6s ease;
+        }
+
+        .fc-event {
+            border-radius: 5px !important;
+            font-weight: 600;
+            font-size: 0.85em;
+        }
+
+        .fc-toolbar-title {
+            color: #2c3e50;
+            font-weight: 700;
+        }
+
+        .fc-button {
+            border-radius: 8px !important;
+            font-weight: 600;
+        }
+
+        .alert-info {
+            background: linear-gradient(135deg, rgba(102, 126, 234, 0.1), rgba(118, 75, 162, 0.1));
+            border: 1px solid rgba(102, 126, 234, 0.2);
+            border-radius: 10px;
+        }
+
+        .loading-spinner {
+            display: none;
+            text-align: center;
+            margin: 20px 0;
+        }
+
+        .pattern-selector {
+            background: white;
+            border-radius: 10px;
+            padding: 15px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
         }
 
         @media (max-width: 768px) {
+            .main-container {
+                margin: 10px;
+                padding: 20px;
+            }
+            
             #calendario {
-                max-width: 100%;
                 padding: 10px;
             }
 
@@ -65,7 +255,12 @@
                 margin-bottom: 10px;
             }
 
-            .fc-button-group {
+            .stats-card {
+                margin-bottom: 10px;
+            }
+
+            .btn-custom {
+                width: 100%;
                 margin-bottom: 10px;
             }
         }
@@ -91,99 +286,458 @@
                 margin-bottom: 5px;
             }
         }
+
+        .fade-in {
+            animation: fadeIn 0.5s ease-in;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .export-section {
+            background: white;
+            border-radius: 10px;
+            padding: 15px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            margin-top: 20px;
+        }
     </style>
 </head>
 
 <body>
-
     <div class="container">
-        <h1 class="text-center mb-4">Calendario de Trabajo/Descanso</h1>
+        <div class="main-container animate__animated animate__fadeIn">
+            <div class="text-center mb-4">
+                <h1 class="display-4 fw-bold text-primary mb-2">
+                    <i class="bi bi-calendar-check me-2"></i>
+                    Calendario de Trabajo/Descanso
+                </h1>
+                <p class="lead text-muted">Planifica tu horario de trabajo con patrones personalizables</p>
+            </div>
 
-        <div class="mb-3">
-            <label for="startDate" class="form-label">Selecciona la fecha de inicio:</label>
-            <input type="date" id="startDate" class="form-control" />
+            <!-- Configuración -->
+            <div class="row mb-4">
+                <div class="col-md-6">
+                    <div class="card">
+                        <div class="card-header bg-primary text-white">
+                            <h5 class="mb-0"><i class="bi bi-gear me-2"></i>Configuración</h5>
+                        </div>
+                        <div class="card-body">
+                            <div class="mb-3">
+                                <label for="startDate" class="form-label fw-semibold">
+                                    <i class="bi bi-calendar3 me-1"></i>Fecha de inicio:
+                                </label>
+                                <input type="date" id="startDate" class="form-control" />
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="patternSelect" class="form-label fw-semibold">
+                                    <i class="bi bi-arrow-repeat me-1"></i>Patrón de trabajo:
+                                </label>
+                                <select id="patternSelect" class="form-select">
+                                    <option value="1-2">1 día trabajo, 2 días descanso</option>
+                                    <option value="2-1">2 días trabajo, 1 día descanso</option>
+                                    <option value="3-2">3 días trabajo, 2 días descanso</option>
+                                    <option value="4-3">4 días trabajo, 3 días descanso</option>
+                                    <option value="5-2">5 días trabajo, 2 días descanso</option>
+                                    <option value="custom">Patrón personalizado</option>
+                                </select>
+                            </div>
+
+                            <div id="customPattern" class="mb-3" style="display: none;">
+                                <label for="customWork" class="form-label fw-semibold">Días de trabajo:</label>
+                                <input type="number" id="customWork" class="form-control mb-2" min="1" max="7" value="1">
+                                <label for="customRest" class="form-label fw-semibold">Días de descanso:</label>
+                                <input type="number" id="customRest" class="form-control" min="1" max="7" value="2">
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="monthsToShow" class="form-label fw-semibold">
+                                    <i class="bi bi-calendar-range me-1"></i>Meses a mostrar:
+                                </label>
+                                <select id="monthsToShow" class="form-select">
+                                    <option value="3">3 meses</option>
+                                    <option value="6">6 meses</option>
+                                    <option value="12" selected>12 meses</option>
+                                    <option value="24">24 meses</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-6">
+                    <div class="card">
+                        <div class="card-header bg-success text-white">
+                            <h5 class="mb-0"><i class="bi bi-bar-chart me-2"></i>Estadísticas</h5>
+                        </div>
+                        <div class="card-body">
+                            <div id="estadisticas" class="text-center text-muted">
+                                <i class="bi bi-info-circle me-1"></i>
+                                Genera el calendario para ver las estadísticas
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="legend mt-3">
+                        <h6 class="fw-semibold mb-3"><i class="bi bi-palette me-2"></i>Leyenda</h6>
+                        <div class="legend-item">
+                            <div class="legend-color trabajo"></div>
+                            <span><i class="bi bi-briefcase me-1"></i>Días de trabajo</span>
+                        </div>
+                        <div class="legend-item">
+                            <div class="legend-color descanso"></div>
+                            <span><i class="bi bi-house me-1"></i>Días de descanso</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Botones de acción -->
+            <div class="d-flex flex-wrap justify-content-center gap-2 mb-4">
+                <button class="btn btn-primary btn-custom" onclick="generarCalendario()">
+                    <i class="bi bi-play-circle me-2"></i>Generar Calendario
+                </button>
+                <button class="btn btn-danger btn-custom" onclick="limpiarCalendario()">
+                    <i class="bi bi-trash me-2"></i>Limpiar Calendario
+                </button>
+                <button class="btn btn-success btn-custom" onclick="exportarICS()">
+                    <i class="bi bi-download me-2"></i>Exportar ICS
+                </button>
+                <button class="btn btn-info btn-custom" onclick="imprimirCalendario()">
+                    <i class="bi bi-printer me-2"></i>Imprimir
+                </button>
+            </div>
+
+            <!-- Loading spinner -->
+            <div class="loading-spinner" id="loadingSpinner">
+                <div class="spinner-border text-primary" role="status">
+                    <span class="visually-hidden">Cargando...</span>
+                </div>
+                <p class="mt-2">Generando calendario...</p>
+            </div>
+
+            <!-- Alerta informativa -->
+            <div class="alert alert-info" role="alert">
+                <i class="bi bi-lightbulb me-2"></i>
+                <strong>Consejo:</strong> Puedes hacer clic en cualquier evento del calendario para ver más detalles.
+            </div>
+
+            <!-- Calendario -->
+            <div id='calendario' class="fade-in"></div>
         </div>
-
-        <div class="d-flex justify-content-between mb-4">
-            <button class="btn btn-primary btn-custom" onclick="generarCalendario()">Generar Calendario</button>
-            <button class="btn btn-danger btn-custom" onclick="limpiarCalendario()">Limpiar Calendario</button>
-        </div>
-
-        <div id='calendario'></div>
     </div>
-    <br>
-    <br>
 
+    <!-- Modal para detalles del evento -->
+    <div class="modal fade" id="eventModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="eventModalLabel">Detalles del Evento</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body" id="eventModalBody">
+                    <!-- Contenido del modal -->
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+    
     <!-- FullCalendar JS -->
     <script src='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.7/index.global.min.js'></script>
 
     <script>
         let calendar;
+        let currentEvents = [];
 
         document.addEventListener('DOMContentLoaded', function () {
+            initCalendar();
+            setupEventListeners();
+        });
+
+        function initCalendar() {
             const calendarEl = document.getElementById('calendario');
 
-            // Crear el calendario FullCalendar con localización en español
             calendar = new FullCalendar.Calendar(calendarEl, {
-                locale: 'es', // Cambia todo a español
+                locale: 'es',
                 initialView: 'dayGridMonth',
                 headerToolbar: {
                     left: 'prev,next today',
                     center: 'title',
-                    right: 'dayGridMonth' // Mostrar solo la vista mensual
+                    right: 'dayGridMonth,listMonth'
                 },
-                themeSystem: 'bootstrap', // Usar tema de Bootstrap para el calendario
-                height: 'auto', // Responsivo
-                events: [] // Se llenarán los eventos dinámicamente
+                themeSystem: 'bootstrap',
+                height: 'auto',
+                events: [],
+                eventClick: function(info) {
+                    showEventDetails(info.event);
+                },
+                eventMouseEnter: function(info) {
+                    info.el.style.transform = 'scale(1.05)';
+                    info.el.style.transition = 'transform 0.2s ease';
+                },
+                eventMouseLeave: function(info) {
+                    info.el.style.transform = 'scale(1)';
+                }
             });
 
             calendar.render();
-        });
+        }
+
+        function setupEventListeners() {
+            document.getElementById('patternSelect').addEventListener('change', function() {
+                const customPattern = document.getElementById('customPattern');
+                if (this.value === 'custom') {
+                    customPattern.style.display = 'block';
+                } else {
+                    customPattern.style.display = 'none';
+                }
+            });
+        }
 
         function generarCalendario() {
             const startDateInput = document.getElementById('startDate');
             const startDateValue = startDateInput.value;
 
             if (!startDateValue) {
-                alert('Por favor selecciona una fecha de inicio válida.');
+                showAlert('Por favor selecciona una fecha de inicio válida.', 'warning');
                 return;
             }
 
-            limpiarCalendario(); // Limpiar eventos anteriores
+            showLoading(true);
+            limpiarCalendario();
 
+            setTimeout(() => {
+                const pattern = getSelectedPattern();
+                const monthsToShow = parseInt(document.getElementById('monthsToShow').value);
+                const eventos = generateEvents(startDateValue, pattern, monthsToShow);
+                
+                currentEvents = eventos;
+                calendar.addEventSource(eventos);
+                calendar.gotoDate(startDateValue);
+                
+                updateStatistics(eventos);
+                showLoading(false);
+                showAlert('Calendario generado exitosamente!', 'success');
+            }, 1000);
+        }
+
+        function getSelectedPattern() {
+            const patternSelect = document.getElementById('patternSelect');
+            const selectedValue = patternSelect.value;
+
+            if (selectedValue === 'custom') {
+                const work = parseInt(document.getElementById('customWork').value) || 1;
+                const rest = parseInt(document.getElementById('customRest').value) || 2;
+                return { work, rest };
+            } else {
+                const [work, rest] = selectedValue.split('-').map(Number);
+                return { work, rest };
+            }
+        }
+
+        function generateEvents(startDate, pattern, months) {
             const eventos = [];
-            let currentDate = new Date(startDateValue);
-            const meses = 12; // Mostrar los próximos 12 meses
+            let currentDate = new Date(startDate);
+            const totalDays = months * 30;
+            let dayCount = 0;
+            const cycleLength = pattern.work + pattern.rest;
 
-            for (let i = 0; i < meses * 30; i++) { // Calcular los próximos 12 meses
+            for (let i = 0; i < totalDays; i++) {
                 const fechaEvento = new Date(currentDate);
-                const tipoEvento = i % 3 === 0 ? 'trabajo' : 'descanso'; // Patrón: 1 trabajo, 2 descanso
+                const positionInCycle = dayCount % cycleLength;
+                const isWorkDay = positionInCycle < pattern.work;
 
                 eventos.push({
-                    title: tipoEvento === 'trabajo' ? 'Trabajo' : 'Descanso',
+                    title: isWorkDay ? 'Trabajo' : 'Descanso',
                     start: fechaEvento.toISOString().split('T')[0],
-                    className: tipoEvento // Aplicar la clase 'trabajo' o 'descanso'
+                    className: isWorkDay ? 'trabajo' : 'descanso',
+                    extendedProps: {
+                        type: isWorkDay ? 'trabajo' : 'descanso',
+                        dayNumber: i + 1,
+                        cyclePosition: positionInCycle + 1,
+                        cycleLength: cycleLength
+                    }
                 });
 
-                // Avanzar al siguiente día
                 currentDate.setDate(currentDate.getDate() + 1);
+                dayCount++;
             }
 
-            // Añadir los eventos al calendario
-            calendar.addEventSource(eventos);
-
-            // Mover el calendario al mes de la fecha seleccionada
-            calendar.gotoDate(startDateValue);
+            return eventos;
         }
 
+        function updateStatistics(eventos) {
+            const workDays = eventos.filter(e => e.extendedProps.type === 'trabajo').length;
+            const restDays = eventos.filter(e => e.extendedProps.type === 'descanso').length;
+            const total = eventos.length;
+            const workPercentage = ((workDays / total) * 100).toFixed(1);
+            const restPercentage = ((restDays / total) * 100).toFixed(1);
+
+            const statsHTML = `
+                <div class="row">
+                    <div class="col-6">
+                        <div class="stats-card trabajo-stats">
+                            <div class="stats-number">${workDays}</div>
+                            <div>Días de trabajo</div>
+                            <div class="mt-2">
+                                <div class="progress">
+                                    <div class="progress-bar bg-danger" style="width: ${workPercentage}%"></div>
+                                </div>
+                                <small>${workPercentage}%</small>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <div class="stats-card descanso-stats">
+                            <div class="stats-number">${restDays}</div>
+                            <div>Días de descanso</div>
+                            <div class="mt-2">
+                                <div class="progress">
+                                    <div class="progress-bar bg-success" style="width: ${restPercentage}%"></div>
+                                </div>
+                                <small>${restPercentage}%</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="mt-3 text-center">
+                    <small class="text-muted">Total de días: ${total}</small>
+                </div>
+            `;
+
+            document.getElementById('estadisticas').innerHTML = statsHTML;
+        }
+
+        function showEventDetails(event) {
+            const modal = new bootstrap.Modal(document.getElementById('eventModal'));
+            const modalTitle = document.getElementById('eventModalLabel');
+            const modalBody = document.getElementById('eventModalBody');
+
+            modalTitle.textContent = event.title;
+            
+            const eventDate = new Date(event.start);
+            const formattedDate = eventDate.toLocaleDateString('es-ES', {
+                weekday: 'long',
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric'
+            });
+
+            modalBody.innerHTML = `
+                <div class="text-center">
+                    <i class="bi bi-${event.extendedProps.type === 'trabajo' ? 'briefcase' : 'house'} display-1 text-${event.extendedProps.type === 'trabajo' ? 'danger' : 'success'} mb-3"></i>
+                    <h4>${event.title}</h4>
+                    <p class="text-muted">${formattedDate}</p>
+                    <hr>
+                    <div class="row">
+                        <div class="col-6">
+                            <strong>Día #:</strong><br>
+                            ${event.extendedProps.dayNumber}
+                        </div>
+                        <div class="col-6">
+                            <strong>Posición en ciclo:</strong><br>
+                            ${event.extendedProps.cyclePosition} de ${event.extendedProps.cycleLength}
+                        </div>
+                    </div>
+                </div>
+            `;
+
+            modal.show();
+        }
 
         function limpiarCalendario() {
-            // Limpiar todos los eventos anteriores del calendario
             calendar.getEventSources().forEach(eventSource => eventSource.remove());
-
-            // Limpiar el campo de fecha solo al hacer clic en el botón "Limpiar Calendario"
-            document.getElementById('startDate').value = '';
+            currentEvents = [];
+            
+            document.getElementById('estadisticas').innerHTML = `
+                <div class="text-center text-muted">
+                    <i class="bi bi-info-circle me-1"></i>
+                    Genera el calendario para ver las estadísticas
+                </div>
+            `;
         }
+
+        function exportarICS() {
+            if (currentEvents.length === 0) {
+                showAlert('Primero debes generar un calendario para exportar.', 'warning');
+                return;
+            }
+
+            let icsContent = 'BEGIN:VCALENDAR\nVERSION:2.0\nPRODID:-//Calendario Trabajo Descanso//ES\n';
+            
+            currentEvents.forEach(event => {
+                const startDate = new Date(event.start);
+                const endDate = new Date(startDate);
+                endDate.setDate(endDate.getDate() + 1);
+                
+                const formatDate = (date) => {
+                    return date.toISOString().replace(/[-:]/g, '').split('T')[0];
+                };
+
+                icsContent += `BEGIN:VEVENT\n`;
+                icsContent += `DTSTART;VALUE=DATE:${formatDate(startDate)}\n`;
+                icsContent += `DTEND;VALUE=DATE:${formatDate(endDate)}\n`;
+                icsContent += `SUMMARY:${event.title}\n`;
+                icsContent += `DESCRIPTION:${event.extendedProps.type === 'trabajo' ? 'Día de trabajo' : 'Día de descanso'}\n`;
+                icsContent += `UID:${event.start}-${event.title}@calendario-trabajo.com\n`;
+                icsContent += `END:VEVENT\n`;
+            });
+            
+            icsContent += 'END:VCALENDAR';
+
+            const blob = new Blob([icsContent], { type: 'text/calendar' });
+            const url = window.URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'calendario-trabajo-descanso.ics';
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            window.URL.revokeObjectURL(url);
+
+            showAlert('Calendario exportado exitosamente!', 'success');
+        }
+
+        function imprimirCalendario() {
+            window.print();
+        }
+
+        function showLoading(show) {
+            const spinner = document.getElementById('loadingSpinner');
+            spinner.style.display = show ? 'block' : 'none';
+        }
+
+        function showAlert(message, type) {
+            // Crear alerta temporal
+            const alertDiv = document.createElement('div');
+            alertDiv.className = `alert alert-${type} alert-dismissible fade show position-fixed`;
+            alertDiv.style.cssText = 'top: 20px; right: 20px; z-index: 9999; min-width: 300px;';
+            alertDiv.innerHTML = `
+                ${message}
+                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+            `;
+            
+            document.body.appendChild(alertDiv);
+            
+            // Auto-remover después de 5 segundos
+            setTimeout(() => {
+                if (alertDiv.parentNode) {
+                    alertDiv.parentNode.removeChild(alertDiv);
+                }
+            }, 5000);
+        }
+
+        // Establecer fecha por defecto (hoy)
+        document.getElementById('startDate').value = new Date().toISOString().split('T')[0];
     </script>
 
 </body>
