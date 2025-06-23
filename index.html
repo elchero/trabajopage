@@ -236,6 +236,108 @@
             margin-bottom: 20px;
         }
 
+        /* Estilos para impresión */
+        .print-only {
+            display: none;
+        }
+
+        .no-print {
+            display: block;
+        }
+
+        @media print {
+            body {
+                background: white !important;
+                font-family: 'Times New Roman', serif;
+                color: black;
+                margin: 0;
+                padding: 20px;
+            }
+
+            .main-container {
+                background: white !important;
+                box-shadow: none !important;
+                border-radius: 0 !important;
+                margin: 0 !important;
+                padding: 0 !important;
+            }
+
+            .no-print {
+                display: none !important;
+            }
+
+            .print-only {
+                display: block !important;
+            }
+
+            .print-header {
+                text-align: center;
+                margin-bottom: 30px;
+                border-bottom: 2px solid #000;
+                padding-bottom: 15px;
+            }
+
+            .print-stats {
+                margin-bottom: 30px;
+                border: 1px solid #ccc;
+                padding: 15px;
+                border-radius: 5px;
+            }
+
+            .print-list {
+                page-break-inside: avoid;
+            }
+
+            .month-section {
+                page-break-inside: avoid;
+                margin-bottom: 25px;
+            }
+
+            .month-header {
+                background-color: #f8f9fa;
+                padding: 10px;
+                border: 1px solid #dee2e6;
+                font-weight: bold;
+                margin-bottom: 10px;
+            }
+
+            .day-item {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                padding: 5px 10px;
+                border-bottom: 1px solid #eee;
+            }
+
+            .day-item.trabajo {
+                background-color: #fff5f5;
+                border-left: 4px solid #e74c3c;
+            }
+
+            .day-item.descanso {
+                background-color: #f8fff8;
+                border-left: 4px solid #27ae60;
+            }
+
+            .day-date {
+                font-weight: 500;
+            }
+
+            .day-type {
+                font-weight: bold;
+                text-transform: uppercase;
+                font-size: 0.9em;
+            }
+
+            .day-type.trabajo {
+                color: #e74c3c;
+            }
+
+            .day-type.descanso {
+                color: #27ae60;
+            }
+        }
+
         @media (max-width: 768px) {
             .main-container {
                 margin: 10px;
@@ -309,124 +411,144 @@
 <body>
     <div class="container">
         <div class="main-container animate__animated animate__fadeIn">
-            <div class="text-center mb-4">
-                <h1 class="display-4 fw-bold text-primary mb-2">
-                    <i class="bi bi-calendar-check me-2"></i>
-                    Calendario de Trabajo/Descanso
-                </h1>
-                <p class="lead text-muted">Planifica tu horario de trabajo con patrones personalizables</p>
-            </div>
+            <!-- Contenido para pantalla -->
+            <div class="no-print">
+                <div class="text-center mb-4">
+                    <h1 class="display-4 fw-bold text-primary mb-2">
+                        <i class="bi bi-calendar-check me-2"></i>
+                        Calendario de Trabajo/Descanso
+                    </h1>
+                    <p class="lead text-muted">Planifica tu horario de trabajo con patrones personalizables</p>
+                </div>
 
-            <!-- Configuración -->
-            <div class="row mb-4">
-                <div class="col-md-6">
-                    <div class="card">
-                        <div class="card-header bg-primary text-white">
-                            <h5 class="mb-0"><i class="bi bi-gear me-2"></i>Configuración</h5>
+                <!-- Configuración -->
+                <div class="row mb-4">
+                    <div class="col-md-6">
+                        <div class="card">
+                            <div class="card-header bg-primary text-white">
+                                <h5 class="mb-0"><i class="bi bi-gear me-2"></i>Configuración</h5>
+                            </div>
+                            <div class="card-body">
+                                <div class="mb-3">
+                                    <label for="startDate" class="form-label fw-semibold">
+                                        <i class="bi bi-calendar3 me-1"></i>Fecha de inicio:
+                                    </label>
+                                    <input type="date" id="startDate" class="form-control" />
+                                </div>
+
+                                <div class="mb-3">
+                                    <label for="patternSelect" class="form-label fw-semibold">
+                                        <i class="bi bi-arrow-repeat me-1"></i>Patrón de trabajo:
+                                    </label>
+                                    <select id="patternSelect" class="form-select">
+                                        <option value="1-2">1 día trabajo, 2 días descanso</option>
+                                        <option value="2-1">2 días trabajo, 1 día descanso</option>
+                                        <option value="3-2">3 días trabajo, 2 días descanso</option>
+                                        <option value="4-3">4 días trabajo, 3 días descanso</option>
+                                        <option value="5-2">5 días trabajo, 2 días descanso</option>
+                                        <option value="custom">Patrón personalizado</option>
+                                    </select>
+                                </div>
+
+                                <div id="customPattern" class="mb-3" style="display: none;">
+                                    <label for="customWork" class="form-label fw-semibold">Días de trabajo:</label>
+                                    <input type="number" id="customWork" class="form-control mb-2" min="1" max="7" value="1">
+                                    <label for="customRest" class="form-label fw-semibold">Días de descanso:</label>
+                                    <input type="number" id="customRest" class="form-control" min="1" max="7" value="2">
+                                </div>
+
+                                <div class="mb-3">
+                                    <label for="monthsToShow" class="form-label fw-semibold">
+                                        <i class="bi bi-calendar-range me-1"></i>Meses a mostrar:
+                                    </label>
+                                    <select id="monthsToShow" class="form-select">
+                                        <option value="3">3 meses</option>
+                                        <option value="6">6 meses</option>
+                                        <option value="12" selected>12 meses</option>
+                                        <option value="24">24 meses</option>
+                                    </select>
+                                </div>
+                            </div>
                         </div>
-                        <div class="card-body">
-                            <div class="mb-3">
-                                <label for="startDate" class="form-label fw-semibold">
-                                    <i class="bi bi-calendar3 me-1"></i>Fecha de inicio:
-                                </label>
-                                <input type="date" id="startDate" class="form-control" />
-                            </div>
+                    </div>
 
-                            <div class="mb-3">
-                                <label for="patternSelect" class="form-label fw-semibold">
-                                    <i class="bi bi-arrow-repeat me-1"></i>Patrón de trabajo:
-                                </label>
-                                <select id="patternSelect" class="form-select">
-                                    <option value="1-2">1 día trabajo, 2 días descanso</option>
-                                    <option value="2-1">2 días trabajo, 1 día descanso</option>
-                                    <option value="3-2">3 días trabajo, 2 días descanso</option>
-                                    <option value="4-3">4 días trabajo, 3 días descanso</option>
-                                    <option value="5-2">5 días trabajo, 2 días descanso</option>
-                                    <option value="custom">Patrón personalizado</option>
-                                </select>
+                    <div class="col-md-6">
+                        <div class="card">
+                            <div class="card-header bg-success text-white">
+                                <h5 class="mb-0"><i class="bi bi-bar-chart me-2"></i>Estadísticas</h5>
                             </div>
-
-                            <div id="customPattern" class="mb-3" style="display: none;">
-                                <label for="customWork" class="form-label fw-semibold">Días de trabajo:</label>
-                                <input type="number" id="customWork" class="form-control mb-2" min="1" max="7" value="1">
-                                <label for="customRest" class="form-label fw-semibold">Días de descanso:</label>
-                                <input type="number" id="customRest" class="form-control" min="1" max="7" value="2">
+                            <div class="card-body">
+                                <div id="estadisticas" class="text-center text-muted">
+                                    <i class="bi bi-info-circle me-1"></i>
+                                    Genera el calendario para ver las estadísticas
+                                </div>
                             </div>
+                        </div>
 
-                            <div class="mb-3">
-                                <label for="monthsToShow" class="form-label fw-semibold">
-                                    <i class="bi bi-calendar-range me-1"></i>Meses a mostrar:
-                                </label>
-                                <select id="monthsToShow" class="form-select">
-                                    <option value="3">3 meses</option>
-                                    <option value="6">6 meses</option>
-                                    <option value="12" selected>12 meses</option>
-                                    <option value="24">24 meses</option>
-                                </select>
+                        <div class="legend mt-3">
+                            <h6 class="fw-semibold mb-3"><i class="bi bi-palette me-2"></i>Leyenda</h6>
+                            <div class="legend-item">
+                                <div class="legend-color trabajo"></div>
+                                <span><i class="bi bi-briefcase me-1"></i>Días de trabajo</span>
+                            </div>
+                            <div class="legend-item">
+                                <div class="legend-color descanso"></div>
+                                <span><i class="bi bi-house me-1"></i>Días de descanso</span>
                             </div>
                         </div>
                     </div>
                 </div>
 
-                <div class="col-md-6">
-                    <div class="card">
-                        <div class="card-header bg-success text-white">
-                            <h5 class="mb-0"><i class="bi bi-bar-chart me-2"></i>Estadísticas</h5>
-                        </div>
-                        <div class="card-body">
-                            <div id="estadisticas" class="text-center text-muted">
-                                <i class="bi bi-info-circle me-1"></i>
-                                Genera el calendario para ver las estadísticas
-                            </div>
-                        </div>
-                    </div>
+                <!-- Botones de acción -->
+                <div class="d-flex flex-wrap justify-content-center gap-2 mb-4">
+                    <button class="btn btn-primary btn-custom" onclick="generarCalendario()">
+                        <i class="bi bi-play-circle me-2"></i>Generar Calendario
+                    </button>
+                    <button class="btn btn-danger btn-custom" onclick="limpiarCalendario()">
+                        <i class="bi bi-trash me-2"></i>Limpiar Calendario
+                    </button>
+                    <button class="btn btn-success btn-custom" onclick="exportarICS()">
+                        <i class="bi bi-download me-2"></i>Exportar ICS
+                    </button>
+                    <button class="btn btn-info btn-custom" onclick="imprimirCalendario()">
+                        <i class="bi bi-printer me-2"></i>Imprimir/PDF
+                    </button>
+                </div>
 
-                    <div class="legend mt-3">
-                        <h6 class="fw-semibold mb-3"><i class="bi bi-palette me-2"></i>Leyenda</h6>
-                        <div class="legend-item">
-                            <div class="legend-color trabajo"></div>
-                            <span><i class="bi bi-briefcase me-1"></i>Días de trabajo</span>
-                        </div>
-                        <div class="legend-item">
-                            <div class="legend-color descanso"></div>
-                            <span><i class="bi bi-house me-1"></i>Días de descanso</span>
-                        </div>
+                <!-- Loading spinner -->
+                <div class="loading-spinner" id="loadingSpinner">
+                    <div class="spinner-border text-primary" role="status">
+                        <span class="visually-hidden">Cargando...</span>
                     </div>
+                    <p class="mt-2">Generando calendario...</p>
+                </div>
+
+                <!-- Alerta informativa -->
+                <div class="alert alert-info" role="alert">
+                    <i class="bi bi-lightbulb me-2"></i>
+                    <strong>Consejo:</strong> Puedes hacer clic en cualquier evento del calendario para ver más detalles.
+                </div>
+
+                <!-- Calendario -->
+                <div id='calendario' class="fade-in"></div>
+            </div>
+
+            <!-- Contenido para impresión -->
+            <div class="print-only">
+                <div class="print-header">
+                    <h1>CALENDARIO DE TRABAJO Y DESCANSO</h1>
+                    <p id="print-date-range"></p>
+                    <p id="print-pattern-info"></p>
+                </div>
+
+                <div class="print-stats" id="print-statistics">
+                    <!-- Las estadísticas se insertarán aquí -->
+                </div>
+
+                <div class="print-list" id="print-calendar-list">
+                    <!-- La lista de días se insertará aquí -->
                 </div>
             </div>
-
-            <!-- Botones de acción -->
-            <div class="d-flex flex-wrap justify-content-center gap-2 mb-4">
-                <button class="btn btn-primary btn-custom" onclick="generarCalendario()">
-                    <i class="bi bi-play-circle me-2"></i>Generar Calendario
-                </button>
-                <button class="btn btn-danger btn-custom" onclick="limpiarCalendario()">
-                    <i class="bi bi-trash me-2"></i>Limpiar Calendario
-                </button>
-                <button class="btn btn-success btn-custom" onclick="exportarICS()">
-                    <i class="bi bi-download me-2"></i>Exportar ICS
-                </button>
-                <button class="btn btn-info btn-custom" onclick="imprimirCalendario()">
-                    <i class="bi bi-printer me-2"></i>Imprimir
-                </button>
-            </div>
-
-            <!-- Loading spinner -->
-            <div class="loading-spinner" id="loadingSpinner">
-                <div class="spinner-border text-primary" role="status">
-                    <span class="visually-hidden">Cargando...</span>
-                </div>
-                <p class="mt-2">Generando calendario...</p>
-            </div>
-
-            <!-- Alerta informativa -->
-            <div class="alert alert-info" role="alert">
-                <i class="bi bi-lightbulb me-2"></i>
-                <strong>Consejo:</strong> Puedes hacer clic en cualquier evento del calendario para ver más detalles.
-            </div>
-
-            <!-- Calendario -->
-            <div id='calendario' class="fade-in"></div>
         </div>
     </div>
 
@@ -457,6 +579,8 @@
     <script>
         let calendar;
         let currentEvents = [];
+        let currentPattern = null;
+        let currentStartDate = null;
 
         document.addEventListener('DOMContentLoaded', function () {
             initCalendar();
@@ -498,7 +622,7 @@
                 if (this.value === 'custom') {
                     customPattern.style.display = 'block';
                 } else {
-                    customPattern.style.display = 'none';
+                    customPattern.style.display = 'none';  
                 }
             });
         }
@@ -521,6 +645,9 @@
                 const eventos = generateEvents(startDateValue, pattern, monthsToShow);
                 
                 currentEvents = eventos;
+                currentPattern = pattern;
+                currentStartDate = startDateValue;
+                
                 calendar.addEventSource(eventos);
                 calendar.gotoDate(startDateValue);
                 
@@ -564,7 +691,8 @@
                         type: isWorkDay ? 'trabajo' : 'descanso',
                         dayNumber: i + 1,
                         cyclePosition: positionInCycle + 1,
-                        cycleLength: cycleLength
+                        cycleLength: cycleLength,
+                        date: new Date(fechaEvento)
                     }
                 });
 
@@ -657,6 +785,8 @@
         function limpiarCalendario() {
             calendar.getEventSources().forEach(eventSource => eventSource.remove());
             currentEvents = [];
+            currentPattern = null;
+            currentStartDate = null;
             
             document.getElementById('estadisticas').innerHTML = `
                 <div class="text-center text-muted">
@@ -708,7 +838,145 @@
         }
 
         function imprimirCalendario() {
-            window.print();
+            if (currentEvents.length === 0) {
+                showAlert('Primero debes generar un calendario para imprimir.', 'warning');
+                return;
+            }
+
+            // Preparar datos para impresión
+            preparePrintData();
+            
+            // Imprimir
+            setTimeout(() => {
+                window.print();
+            }, 100);
+        }
+
+        function preparePrintData() {
+            // Configurar información del encabezado
+            const startDate = new Date(currentStartDate);
+            const endDate = new Date(currentStartDate);
+            const monthsToShow = parseInt(document.getElementById('monthsToShow').value);
+            endDate.setMonth(endDate.getMonth() + monthsToShow);
+            
+            const startFormatted = startDate.toLocaleDateString('es-ES', { 
+                year: 'numeric', 
+                month: 'long', 
+                day: 'numeric' 
+            });
+            const endFormatted = endDate.toLocaleDateString('es-ES', { 
+                year: 'numeric', 
+                month: 'long', 
+                day: 'numeric' 
+            });
+
+            document.getElementById('print-date-range').textContent = 
+                `Período: ${startFormatted} - ${endFormatted}`;
+            
+            document.getElementById('print-pattern-info').textContent = 
+                `Patrón: ${currentPattern.work} día(s) de trabajo, ${currentPattern.rest} día(s) de descanso`;
+
+            // Preparar estadísticas para impresión
+            const workDays = currentEvents.filter(e => e.extendedProps.type === 'trabajo').length;
+            const restDays = currentEvents.filter(e => e.extendedProps.type === 'descanso').length;
+            const total = currentEvents.length;
+            const workPercentage = ((workDays / total) * 100).toFixed(1);
+            const restPercentage = ((restDays / total) * 100).toFixed(1);
+
+            const printStatsHTML = `
+                <h2>RESUMEN ESTADÍSTICO</h2>
+                <table style="width: 100%; border-collapse: collapse; margin-bottom: 20px;">
+                    <tr>
+                        <td style="border: 1px solid #ddd; padding: 12px; background-color: #fff5f5;">
+                            <strong>Días de Trabajo:</strong>
+                        </td>
+                        <td style="border: 1px solid #ddd; padding: 12px; text-align: center;">
+                            <strong>${workDays} días (${workPercentage}%)</strong>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="border: 1px solid #ddd; padding: 12px; background-color: #f8fff8;">
+                            <strong>Días de Descanso:</strong>
+                        </td>
+                        <td style="border: 1px solid #ddd; padding: 12px; text-align: center;">
+                            <strong>${restDays} días (${restPercentage}%)</strong>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="border: 1px solid #ddd; padding: 12px; background-color: #f8f9fa;">
+                            <strong>Total de Días:</strong>
+                        </td>
+                        <td style="border: 1px solid #ddd; padding: 12px; text-align: center;">
+                            <strong>${total} días</strong>
+                        </td>
+                    </tr>
+                </table>
+            `;
+
+            document.getElementById('print-statistics').innerHTML = printStatsHTML;
+
+            // Preparar lista de días agrupada por mes
+            const eventsByMonth = groupEventsByMonth(currentEvents);
+            let listHTML = '<h2>CALENDARIO DETALLADO</h2>';
+
+            Object.keys(eventsByMonth).forEach(monthKey => {
+                const monthEvents = eventsByMonth[monthKey];
+                listHTML += `
+                    <div class="month-section">
+                        <div class="month-header">
+                            ${monthKey}
+                        </div>
+                `;
+
+                monthEvents.forEach(event => {
+                    const eventDate = new Date(event.start);
+                    const dayName = eventDate.toLocaleDateString('es-ES', { weekday: 'long' });
+                    const dayNumber = eventDate.getDate();
+                    const isWorkDay = event.extendedProps.type === 'trabajo';
+                    
+                    listHTML += `
+                        <div class="day-item ${event.extendedProps.type}">
+                            <div class="day-date">
+                                ${dayName}, ${dayNumber} - 
+                                <span class="day-type ${event.extendedProps.type}">
+                                    ${isWorkDay ? 'TRABAJO' : 'DESCANSO'}
+                                </span>
+                            </div>
+                            <div>
+                                Ciclo: ${event.extendedProps.cyclePosition}/${event.extendedProps.cycleLength}
+                            </div>
+                        </div>
+                    `;
+                });
+
+                listHTML += '</div>';
+            });
+
+            document.getElementById('print-calendar-list').innerHTML = listHTML;
+        }
+
+        function groupEventsByMonth(events) {
+            const grouped = {};
+            
+            events.forEach(event => {
+                const eventDate = new Date(event.start);
+                const monthKey = eventDate.toLocaleDateString('es-ES', { 
+                    year: 'numeric', 
+                    month: 'long' 
+                }).toUpperCase();
+                
+                if (!grouped[monthKey]) {
+                    grouped[monthKey] = [];
+                }
+                grouped[monthKey].push(event);
+            });
+
+            // Ordenar eventos dentro de cada mes
+            Object.keys(grouped).forEach(month => {
+                grouped[month].sort((a, b) => new Date(a.start) - new Date(b.start));
+            });
+
+            return grouped;
         }
 
         function showLoading(show) {
